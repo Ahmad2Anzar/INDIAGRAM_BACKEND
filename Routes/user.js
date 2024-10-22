@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const user_controller = require('../Controllers/user_controller');
 const passport = require('passport');
 const jwt = require("jsonwebtoken");
+const FRONT_URL = process.env.FRONT_URL;
 const jwtSecret=process.env.JWTSECRET
 
 router.post('/signUp', [body('email').isEmail(), body('password', 'incorrect password').isLength({ min: 5 })], user_controller.signUp);
@@ -30,7 +31,7 @@ router.get('/auth/google/callback',
     const oneWeekInSeconds = 7 * 24 * 60 * 60;
     res.cookie('authToken', authToken, { maxAge: oneWeekInSeconds * 1000 });
     res.cookie('userEmail', userEmail, { maxAge: oneWeekInSeconds * 1000 });
-    res.redirect('http://localhost:3000');
+    res.redirect(FRONT_URL);
   });
 
 module.exports = router;
